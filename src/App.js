@@ -16,20 +16,42 @@ const activities = {
 };
 
 export default function App() {
-  const [input, setInput] = useState("");
+  var [acts, setActs] = useState("");
 
-  function activityHandler() {
-    var name = event.target.value;
-    var act = activities[name];
-
-    setInput(act);
+  function activityHandler(event) {
+    var activity = event.target.value;
+    var acts = activities[activity];
+    setActs(acts);
   }
+
+  function emojiHandler(activity) {
+    var acts = activities[activity];
+    setActs(acts);
+  }
+
+  if (acts === undefined) {
+    acts = "We donot have this activity in our database";
+  }
+
+  var performingActs = Object.keys(activities);
 
   return (
     <div className="App">
       <h1>Activities</h1>
       <input onChange={activityHandler}></input>
-      <h2>{input}</h2>
+      <h2>{acts}</h2>
+      <h3>Activities we have</h3>
+      {performingActs.map(function (emoji) {
+        return (
+          <span
+            onClick={() => emojiHandler(emoji)}
+            style={{ fontSize: "30px", padding: "0.3rem", cursor: "pointer" }}
+          >
+            {" "}
+            {emoji}{" "}
+          </span>
+        );
+      })}
     </div>
   );
 }
